@@ -22,35 +22,22 @@ public class UserMealsUtil {
         getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
 
         // test
-        List<UserMealWithExceed> testList = getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
-        testList.forEach(s -> System.out.println(s.getDateTime() + " " + s.getDescription() + " " + s.getCalories() + " " + s.isExceed()));
+        getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000)
+                .forEach(s -> System.out.println(s.getDateTime() + " " + s.getDescription() + " " + s.getCalories() + " " + s.isExceed()));
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        List<UserMealWithExceed> result = new ArrayList<>();
+        Set<UserMealWithExceed> set = new TreeSet<>(Comparator.comparing(UserMealWithExceed::getDateTime));
         Map<LocalDate, Integer> map = new HashMap<>();
-//        mealList.forEach(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), (a, b) -> a + b));
-//        mealList.forEach(s -> {
-//            if (s.getDateTime().toLocalTime().isAfter(startTime) && s.getDateTime().toLocalTime().isBefore(endTime)){
-//                if (map.get(s.getDateTime().toLocalDate()) > caloriesPerDay) {
-//                    result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), true));
-//                } else {
-//                    result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), false));
-//                }
-//            }
-//        });
-//        result.sort(Comparator.comparing(s -> s.getDateTime().toLocalDate()));
-
         mealList.stream().peek(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), (a, b) -> a + b))
                 .filter(s -> s.getDateTime().toLocalTime().isAfter(startTime) && s.getDateTime().toLocalTime().isBefore(endTime))
-                .sorted(Comparator.comparing(s -> s.getDateTime().toLocalDate()))
                 .forEach(s -> {
                     if (map.get(s.getDateTime().toLocalDate()) > caloriesPerDay) {
-                        result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), true));
+                        set.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), true));
                     } else {
-                        result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), false));
+                        set.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), false));
                     }
                 });
-        return result;
+        return new ArrayList<>(set);
     }
 }
