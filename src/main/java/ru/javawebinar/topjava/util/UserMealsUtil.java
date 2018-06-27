@@ -22,22 +22,23 @@ public class UserMealsUtil {
         getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
 
         // test
-        getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000)
-                .forEach(s -> System.out.println(s.getDateTime() + " " + s.getDescription() + " " + s.getCalories() + " " + s.isExceed()));
+        List<UserMealWithExceed> testList = getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+        testList.forEach(s -> System.out.println(s.getDateTime() + " " + s.getDescription() + " " + s.getCalories() + " " + s.isExceed()));
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Set<UserMealWithExceed> set = new TreeSet<>(Comparator.comparing(UserMealWithExceed::getDateTime));
+        List<UserMealWithExceed> result = new ArrayList<>();
         Map<LocalDate, Integer> map = new HashMap<>();
         mealList.stream().peek(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), (a, b) -> a + b))
-                .filter(s -> s.getDateTime().toLocalTime().isAfter(startTime) && s.getDateTime().toLocalTime().isBefore(endTime))
+                .filter(s -> TimeUtil.isBetween(s.getDateTime().toLocalTime(), startTime, endTime))
+                .sorted(Comparator.comparing(s -> s.getDateTime().toLocalDate()))
                 .forEach(s -> {
                     if (map.get(s.getDateTime().toLocalDate()) > caloriesPerDay) {
-                        set.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), true));
+                        result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), true));
                     } else {
-                        set.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), false));
+                        result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), false));
                     }
                 });
-        return new ArrayList<>(set);
+        return result;
     }
 }
