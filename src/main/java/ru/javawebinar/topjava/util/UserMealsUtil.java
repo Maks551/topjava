@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -42,8 +41,7 @@ public class UserMealsUtil {
 //        });
 //        result.sort(Comparator.comparing(s -> s.getDateTime().toLocalDate()));
 
-        Stream<UserMeal> stream = mealList.stream();
-        stream.peek(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), (a, b) -> a + b))
+        mealList.stream().peek(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), (a, b) -> a + b))
                 .filter(s -> s.getDateTime().toLocalTime().isAfter(startTime) && s.getDateTime().toLocalTime().isBefore(endTime))
                 .sorted(Comparator.comparing(s -> s.getDateTime().toLocalDate()))
                 .forEach(s -> {
