@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -26,19 +27,15 @@ public class UserMealsUtil {
         testList.forEach(s -> System.out.println(s.getDateTime() + " " + s.getDescription() + " " + s.getCalories() + " " + s.isExceed()));
     }
 
-    public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        List<UserMealWithExceed> result = new ArrayList<>();
+    public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime,
+                                                                   LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> map = new HashMap<>();
-        mealList.stream().peek(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), (a, b) -> a + b))
+        return mealList.stream()
+                .peek(s -> map.merge(s.getDateTime().toLocalDate(), s.getCalories(), Integer::sum))
                 .filter(s -> TimeUtil.isBetween(s.getDateTime().toLocalTime(), startTime, endTime))
+                .map(s -> new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(),
+                        map.get(s.getDateTime().toLocalDate()) > caloriesPerDay))
                 .sorted(Comparator.comparing(s -> s.getDateTime().toLocalDate()))
-                .forEach(s -> {
-                    if (map.get(s.getDateTime().toLocalDate()) > caloriesPerDay) {
-                        result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), true));
-                    } else {
-                        result.add(new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(), false));
-                    }
-                });
-        return result;
+                .collect(Collectors.toList());
     }
 }
