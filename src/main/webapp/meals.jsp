@@ -29,7 +29,8 @@
             <c:forEach var="meal" items="${mealList}">
                 <c:if test="${meal.exceed}"><tr style="color: red"></c:if>
                 <c:if test="${!meal.exceed}"><tr style="color: green"></c:if>
-                    <td>#</td>
+                    <td>${meal.id}</td>
+                    <%--<td>#</td>--%>
                     <td>${meal.dateTime.toLocalDate()}</td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
