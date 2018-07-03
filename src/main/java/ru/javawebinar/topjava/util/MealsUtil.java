@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,15 +17,23 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
+    private static ConcurrentHashMap<Integer, Meal> mealConcurrentHashMap = new ConcurrentHashMap<>();
+
+    static {
+        mealConcurrentHashMap.put(1, new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
+        mealConcurrentHashMap.put(2, new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
+        mealConcurrentHashMap.put(3, new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
+        mealConcurrentHashMap.put(4, new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        mealConcurrentHashMap.put(5, new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        mealConcurrentHashMap.put(6, new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+    }
+
+    public ConcurrentHashMap<Integer, Meal> getMealConcurrentHashMap() {
+        return mealConcurrentHashMap;
+    }
+
     public static void main(String[] args) {
-        List<Meal> meals = Arrays.asList(
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
-        );
+        List<Meal> meals = new ArrayList<>(mealConcurrentHashMap.values());
         List<MealWithExceed> mealsWithExceeded = getFilteredWithExceeded(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsWithExceeded.forEach(System.out::println);
 
