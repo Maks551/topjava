@@ -9,7 +9,7 @@ public interface DAOUtil {
     ConcurrentHashMap<Integer, Meal> getMealConcurrentHashMap();
     void addMeal(Meal meal);
     void updateMeal(Meal meal);
-    void deleteMeal(int mealId);
+    void deleteMeal(Integer mealId);
     List<Meal> getAllMeals();
-    Meal getMealById(int mealId);
+    Meal getMealById(Integer mealId);
 }

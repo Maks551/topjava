@@ -33,7 +33,7 @@ public class DAOUtilImpl implements DAOUtil {
     }
 
     @Override
-    public void deleteMeal(int mealId) {
+    public void deleteMeal(Integer mealId) {
         getMealConcurrentHashMap().remove(mealId);
     }
 
@@ -43,7 +43,7 @@ public class DAOUtilImpl implements DAOUtil {
     }
 
     @Override
-    public Meal getMealById(int mealId) {
+    public Meal getMealById(Integer mealId) {
         return getMealConcurrentHashMap().get(mealId);
     }
 }
