@@ -32,18 +32,19 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("MealServlet - doGet()");
+        String forward = "";
         String action = req.getParameter("action");
 
         if (action != null) {
-            String forward;
             switch (action) {
                 case "delete": {
                     int mealId = Integer.parseInt(req.getParameter("mealId"));
                     log.debug("delete meal from id = " + mealId);
                     dao.deleteMeal(mealId);
-                    log.debug("redirect to " + LIST_MEALS);
-                    resp.sendRedirect("meals");
-                    return;
+                    log.debug("forward to " + LIST_MEALS);
+                    forward = LIST_MEALS;
+                    req.setAttribute("mealList", getMealWithExceeds());
+                    break;
                 }
                 case "edit": {
                     int mealId = Integer.parseInt(req.getParameter("mealId"));
@@ -64,10 +65,8 @@ public class MealServlet extends HttpServlet {
                     log.debug("forward to " + INSERT_OR_EDIT);
                     break;
             }
-            req.getRequestDispatcher(forward).forward(req, resp);
         }
-        req.setAttribute("mealList", getMealWithExceeds());
-        req.getRequestDispatcher(LIST_MEALS).forward(req, resp);
+        req.getRequestDispatcher(forward).forward(req, resp);
     }
 
     @Override
