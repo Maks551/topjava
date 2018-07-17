@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava;
 
-import jdk.vm.ci.meta.Local;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Role;

@@ -20,6 +20,14 @@
 <section>
     <h3><a href="index.html">Home</a></h3>
     <h2>Meals</h2>
+    <form method="post" action="meals?action=filter">
+        <h4>From Date: <input type="date" name="startDate" value="${param.startDate}"></h4>
+        <h4>To Date:   <input type="date" name="endDate" value="${param.endDate}"></h4>
+        <h4>From Time: <input type="time" name="startTime" value="${param.startTime}"></h4>
+        <h4>To Time:   <input type="time" name="endTime" value="${param.endTime}"></h4>
+        <button type="submit">Filter</button>
+    </form>
+    <hr/>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">
