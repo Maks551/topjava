@@ -9,12 +9,9 @@ import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -44,7 +41,7 @@ public class MealRestController {
         service.delete(id, userId);
     }
 
-    public Meal update(Meal meal) {
+    public Meal update(Meal meal, int id) {
         int userId = SecurityUtil.authUserId();
         assureIdConsistent(meal, userId);
         log.info("update meal {} for user {}", meal.getId(), userId);
@@ -64,10 +61,15 @@ public class MealRestController {
         return MealsUtil.getWithExceeded(service.getAll(userId), SecurityUtil.authUserCaloriesPerDay());
     }
 
-    public List<MealWithExceed> getAllBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         int userId = SecurityUtil.authUserId();
-        log.info("getAllBetween dateTime {{} - {}} for user {}", startDateTime, endDateTime, userId);
-        List<Meal> allBetweenTime = service.getAllBetweenTime(startDateTime, endDateTime, userId);
-        return MealsUtil.getWithExceeded(allBetweenTime, SecurityUtil.authUserCaloriesPerDay());
+        log.info("getBetween date {{} - {}} time {{} - {}} for user {}", startDate, endDate, startTime, endTime, userId);
+        List<Meal> allBetweenTime = service.getAllBetweenDate(
+                startDate != null ? startDate : DateTimeUtil.MIN_DATE,
+                endDate != null ? endDate : DateTimeUtil.MAX_DATE, userId);
+
+        return MealsUtil.getFilteredWithExceeded(allBetweenTime, SecurityUtil.authUserCaloriesPerDay(),
+                startTime != null ? startTime : LocalTime.MIN,
+                endTime != null ? endTime : LocalTime.MAX);
     }
 }

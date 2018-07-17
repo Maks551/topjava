@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava;
 
+import jdk.vm.ci.meta.Local;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Role;
@@ -8,7 +9,8 @@ import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -24,9 +26,9 @@ public class SpringMain {
 
             MealRestController mealController = appCtx.getBean(MealRestController.class);
             List<MealWithExceed> filteredMealsWithExceeded =
-                    mealController.getAllBetween(
-                            LocalDateTime.of(2015, Month.MAY, 30,7, 0),
-                            LocalDateTime.of(2015, Month.MAY, 31,11, 0));
+                    mealController.getBetween(
+                            LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
+                            LocalDate.of(2015, Month.MAY, 31), LocalTime.of(13, 0));
             filteredMealsWithExceeded.forEach(System.out::println);
         }
     }
