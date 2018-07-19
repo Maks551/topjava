@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -15,6 +16,8 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -27,6 +30,16 @@ import java.util.stream.Collectors;
 public class JdbcMealRepositoryImpl implements MealRepository {
 
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+
+//    private static final RowMapper<Meal> ROW_MAPPER = new RowMapper<Meal>() {
+//        @Override
+//        public Meal mapRow(ResultSet rs, int rowNum) throws SQLException {
+//            return new Meal(rs.getInt("id"),
+//                            rs.getTimestamp("dateTime").toLocalDateTime(),
+//                            rs.getString("description"),
+//                            rs.getInt("calories"));
+//        }
+//    };
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -84,7 +97,8 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY id, user_id", ROW_MAPPER, userId);
         return meals.isEmpty() ? Collections.emptyList() :
                 meals.stream()
-                        .filter(meal -> DateTimeUtil.isBetween(meal.getDateTime(), startDate, endDate))
+                        .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate.toLocalDate(), endDate.toLocalDate()))
+                        .filter(meal -> DateTimeUtil.isBetween(meal.getTime(), startDate.toLocalTime(), endDate.toLocalTime()))
                         .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                         .collect(Collectors.toList());
     }

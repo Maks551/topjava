@@ -20,12 +20,16 @@ public class Meal extends AbstractBaseEntity {
         this(null, dateTime, description, calories);
     }
 
-    public Meal(int userId, LocalDateTime dateTime, String description, int calories) {
-        super(null);
+    public Meal(Integer id, int userId, LocalDateTime dateTime, String description, int calories) {
+        super(id);
         this.userId = userId;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+
+    public Meal(Meal meal){
+        this(meal.id, meal.userId, meal.getDateTime(), meal.description, meal.calories);
     }
 
     public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
@@ -80,6 +84,7 @@ public class Meal extends AbstractBaseEntity {
     public String toString() {
         return "Meal{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
