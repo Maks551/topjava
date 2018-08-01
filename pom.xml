@@ -36,6 +36,9 @@
 
         <!--Tools-->
         <ehcache.version>3.5.2</ehcache.version>
+
+        <!--For Java 9-->
+        <jaxb.version>2.3.0</jaxb.version>
     </properties>
 
     <build>
@@ -163,9 +166,24 @@
 
         <!--For Java 9-->
         <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
+            <version>${jaxb.version}</version>
         </dependency>
     </dependencies>
 
