@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,9 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:user_id ORDER BY m.dateTime DESC")
     Meal get(@Param("id")int id, @Param("user_id") int user_id);
+
+    @Query("SELECT u FROM User u WHERE u.id=:id")
+    User getUser(@Param("id")int id);
 
     @Transactional
     Meal save(Meal meal);

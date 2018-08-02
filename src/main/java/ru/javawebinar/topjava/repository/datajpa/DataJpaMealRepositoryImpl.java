@@ -12,11 +12,10 @@ import java.util.List;
 @Repository
 public class DataJpaMealRepositoryImpl implements MealRepository {
     private CrudMealRepository crudRepository;
-    private final CrudUserRepository crudUserRepository;
+
     @Autowired
-    public DataJpaMealRepositoryImpl(CrudMealRepository crudRepository, CrudUserRepository crudUserRepository) {
+    public DataJpaMealRepositoryImpl(CrudMealRepository crudRepository) {
         this.crudRepository = crudRepository;
-        this.crudUserRepository = crudUserRepository;
     }
 
     @Override
@@ -24,12 +23,11 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
         if (!meal.isNew() && crudRepository.get(meal.getId(), userId) == null) {
             return null;
         }
-        meal.setUser(crudUserRepository.findById(userId).orElse(null));
+        meal.setUser(crudRepository.getUser(userId));
         if (meal.isNew()) {
             crudRepository.save(meal);
             return meal;
         } else {
-//            meal.setUser(get(meal.getId(), userId).getUser());
             return crudRepository.save(meal);
         }
     }
