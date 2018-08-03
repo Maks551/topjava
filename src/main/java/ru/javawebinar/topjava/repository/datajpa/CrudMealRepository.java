@@ -16,7 +16,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Query("SElECT m FROM Meal m WHERE m.user.id=:user_id ORDER BY m.dateTime DESC")
     List<Meal> getAll(@Param("user_id") int user_id);
 
-    @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:user_id ORDER BY m.dateTime DESC")
+    @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:user_id")
     Meal get(@Param("id")int id, @Param("user_id") int user_id);
 
     @Query("SELECT u FROM User u WHERE u.id=:id")

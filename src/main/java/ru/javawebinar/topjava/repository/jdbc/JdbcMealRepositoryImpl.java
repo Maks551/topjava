@@ -85,4 +85,9 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
     }
 
     protected abstract Object formatTime(LocalDateTime dateTime);
+
+    @Override
+    public Meal getWithUser(int id, int userId) {
+        return null;
+    }
 }
