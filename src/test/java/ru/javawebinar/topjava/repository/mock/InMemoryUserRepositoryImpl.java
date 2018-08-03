@@ -61,4 +61,9 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public User getWithMeal(int id) {
+        return null;
+    }
 }

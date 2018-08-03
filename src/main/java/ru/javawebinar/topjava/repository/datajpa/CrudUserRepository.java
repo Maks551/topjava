@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Override
     @Transactional
     User save(User user);
+
+    @Query("SElECT m FROM Meal m WHERE m.user.id=:user_id ORDER BY m.dateTime DESC")
+    List<Meal> getAllMeal(@Param("user_id") int user_id);
 
     @Override
     Optional<User> findById(Integer id);
