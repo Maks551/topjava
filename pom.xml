@@ -37,6 +37,7 @@
         <!--Tools-->
         <ehcache.version>3.5.2</ehcache.version>
 
+        <!--For Java 9-->
         <jaxb.version>2.3.0</jaxb.version>
     </properties>
 
@@ -108,6 +109,11 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
 
         <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
