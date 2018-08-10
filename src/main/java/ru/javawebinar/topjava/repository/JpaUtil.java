@@ -11,7 +11,7 @@ public class JpaUtil {
     @PersistenceContext
     private EntityManager em;
 
-    public void clear2ndLevelHibernateCache() {
+    public void clearAndLevelHibernateCache() {
         Session s = (Session) em.getDelegate();
         SessionFactory sf = s.getSessionFactory();
 //        sf.evict(User.class);
