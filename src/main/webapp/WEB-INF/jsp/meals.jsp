@@ -4,10 +4,6 @@
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
     <jsp:include page="fragments/headTag.jsp"/>
-<head>
-    <title>Calories management</title>
-    <link rel="stylesheet" href="resources/css/style.css">
-</head>
 <body>
     <jsp:include page="fragments/bodyHeader.jsp"/>
 
