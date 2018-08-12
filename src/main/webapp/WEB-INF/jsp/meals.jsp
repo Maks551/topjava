@@ -3,14 +3,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
+    <jsp:include page="fragments/headTag.jsp"/>
 <head>
     <title>Calories management</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
+    <jsp:include page="fragments/bodyHeader.jsp"/>
+
 <section>
     <h3>Meals</h3>
-    <form method="post" action="meals?action=filter">
+    <form method="post" action="${pageContext.request.contextPath}/meals?action=filter">
         <dl>
             <dt>From Date:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -30,7 +33,7 @@
         <button type="submit">Filter</button>
     </form>
     <hr/>
-    <a href="meals?action=create">Add Meal</a>
+    <a href="meals/create">Add Meal</a>
     <hr/>
 
 
@@ -56,8 +59,8 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
-                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
+                <td><a href="${pageContext.request.contextPath}/meals/update/${meal.id}">Update</a></td>
+                <td><a href="${pageContext.request.contextPath}/meals/delete/${meal.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
