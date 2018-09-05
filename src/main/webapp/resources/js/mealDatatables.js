@@ -14,6 +14,14 @@ function clearFilter() {
     $.get(ajaxUrl, updateTableByData);
 }
 
+function saveMeal() {
+    var calories = $("#calories").val();
+    if (calories === "") {
+        $("#calories").val(1000);
+    }
+    save();
+}
+
 $(function () {
     datatableApi = $("#datatable").DataTable({
         "paging": false,

@@ -20,9 +20,15 @@ public class MealTo extends BaseTo {
 
     @NotNull
     @Range(min = 10, max = 5000)
-    private int calories;
+    private Integer calories;
 
     public MealTo() {}
+
+    public MealTo(LocalDateTime dateTime, String description) {
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = 1000;
+    }
 
     public MealTo(LocalDateTime dateTime, String description, int calories) {
         this.dateTime = dateTime;
@@ -57,6 +63,7 @@ public class MealTo extends BaseTo {
     @Override
     public String toString() {
         return "MealTo{" +
+                "id=" + id + '\'' +
                 "dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
