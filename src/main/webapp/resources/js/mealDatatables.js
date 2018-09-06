@@ -15,20 +15,26 @@ function clearFilter() {
 }
 
 function saveMeal() {
-    var calories = $("#calories").val();
-    if (calories === "") {
-        $("#calories").val(1000);
-    }
+    $("#calories").val() === "" ? $("#calories").val(1000) : $("#calories").val();
     save();
 }
 
 $(function () {
     datatableApi = $("#datatable").DataTable({
+        "ajax": {
+            "url": ajaxUrl,
+            "dataSrc": ""
+        },
         "paging": false,
         "info": true,
         "columns": [
             {
-                "data": "dateTime"
+                "data": "dateTime",
+                "render": function (date, type, row) {
+                    if (type === "display") {
+                        return date.replace('T', ' ').substring(0, date.length - 3);
+                    } else return date;
+                }
             },
             {
                 "data": "description"
@@ -37,12 +43,14 @@ $(function () {
                 "data": "calories"
             },
             {
-                "defaultContent": "Edit",
-                "orderable": false
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderEditBtn
             },
             {
-                "defaultContent": "Delete",
-                "orderable": false
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderDeleteBtn
             }
         ],
         "order": [
@@ -50,7 +58,14 @@ $(function () {
                 0,
                 "desc"
             ]
-        ]
+        ],
+        "createdRow": function (row, data, dataIndex) {
+            if (!data.exceed) {
+                $(row).attr("data-mealExceed", false);
+            } else {
+                $(row).attr("data-mealExceed", true);
+            }
+        },
+        "initComplete": makeEditable
     });
-    makeEditable();
 });
