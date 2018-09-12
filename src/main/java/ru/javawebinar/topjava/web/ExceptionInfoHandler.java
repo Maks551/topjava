@@ -7,6 +7,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +22,8 @@ import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.Arrays;
 
 import static ru.javawebinar.topjava.util.exception.ErrorType.*;
 
@@ -41,7 +46,8 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class,
+                        HttpMessageNotReadableException.class})
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
     }
@@ -50,6 +56,18 @@ public class ExceptionInfoHandler {
     @ExceptionHandler(Exception.class)
     public ErrorInfo handleError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, true, APP_ERROR);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    public ErrorInfo handleBindException(HttpServletRequest req, Exception e) {
+        BindingResult result = (e instanceof BindException)?
+                ((BindException) e).getBindingResult() : ((MethodArgumentNotValidException) e).getBindingResult();
+
+        String[] details = result.getFieldErrors().stream()
+                .map(ef -> ef.getField() + " " + ef.getDefaultMessage()).toArray(String[]::new);
+        System.out.println("Error 3");
+        return new ErrorInfo(req.getRequestURL(), VALIDATION_ERROR, Arrays.toString(details));
     }
 
 //    https://stackoverflow.com/questions/538870/should-private-helper-methods-be-static-if-they-can-be-static
