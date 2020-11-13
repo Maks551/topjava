@@ -7,3 +7,7 @@ log
 
 
 *.patch
+*.project
+*.classpath
+.settings/*
+.vscode/*
