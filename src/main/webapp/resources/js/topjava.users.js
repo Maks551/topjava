@@ -78,6 +78,16 @@ $(function () {
             if (!data.enabled) {
                 $(row).attr("data-userEnabled", false);
             }
-        }
+        },
+        "language": {
+            "info": i18n["common.showingInfo"],
+            "emptyTable": i18n["common.emptyTable"],
+            "infoEmpty": i18n["common.infoEmpty"],
+            "paginate": {
+                "next": i18n["common.next"],
+                "previous": i18n["common.previous"]
+            }
+        },
+        "lengthMenu": [ 10, 25, 50, 100 ]
     }));
 });

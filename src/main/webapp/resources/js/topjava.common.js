@@ -1,4 +1,8 @@
 const form = $('#detailsForm');
+var MAX_ROWS = 5;
+var totalRows = 0;
+var page = 0;
+var info = "";
 
 function makeEditable() {
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
@@ -23,7 +27,7 @@ function extendsOpts(opts) {
                 "url": ajaxUrl,
                 "dataSrc": ""
             },
-            "paging": false,
+            "paging": true,
             "info": true,
             "language": {
                 "search": i18n["common.search"]

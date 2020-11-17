@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.util.UserUtil;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ public class UserTo extends BaseTo implements Serializable {
 
     @NotBlank
     @Size(min = 2, max = 100)
+    @Pattern(regexp="([a-zA-Z]+)|([а-яА-Я]+)")
     @SafeHtml
     private String name;
 

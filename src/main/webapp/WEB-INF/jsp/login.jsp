@@ -26,7 +26,7 @@
             </button>
         </p>
         <br/>
-        <p>Стек технологий: <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
+        <p><spring:message code="app.bodyStart"/> <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
             <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,
             <a href="http://spring.io/blog/2014/05/07/preview-spring-security-test-method-security">Spring Security
@@ -51,14 +51,7 @@
 </div>
 <div class="container">
     <div class="lead">
-        &nbsp;&nbsp;&nbsp;<a href="https://github.com/JavaOPs/topjava">Java Enterprise проект</a> с
-        регистрацией/авторизацией и интерфейсом на основе ролей (USER, ADMIN).
-        Администратор может создавать/редактировать/удалять пользователей, а пользователи - управлять своим
-        профилем и данными (день, еда, калории) через UI (по AJAX) и по REST интерфейсу с базовой авторизацией.
-        Возможна фильтрация данных по датам и времени, при этом цвет записи таблицы еды зависит от того, превышает ли
-        сумма
-        калорий за день норму (редактируемый параметр в профиле пользователя).
-        Весь REST интерфейс покрывается JUnit тестами, используя Spring MVC Test и Spring Security Test.
+        &nbsp;&nbsp;&nbsp;<a href="https://github.com/JavaOPs/topjava"><spring:message code="app.projectName"/></a> <spring:message code="app.projectInfo"/>
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>

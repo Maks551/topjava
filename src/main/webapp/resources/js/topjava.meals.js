@@ -58,7 +58,17 @@ $(function () {
         ],
         "createdRow": function (row, data, dataIndex) {
             $(row).attr("data-mealExceed", data.exceed);
-        }
+        },
+        "language": {
+            "info": i18n["common.showingInfo"],
+            "emptyTable": i18n["common.emptyTable"],
+            "infoEmpty": i18n["common.infoEmpty"],
+            "paginate": {
+                "next": i18n["common.next"],
+                "previous": i18n["common.previous"]
+            }
+        },
+        "lengthMenu": [ 10, 25, 50, 100 ]
     }));
 
     $.datetimepicker.setLocale(localeCode);
