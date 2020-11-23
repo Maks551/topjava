@@ -83,6 +83,7 @@ $(function () {
             "info": i18n["common.showingInfo"],
             "emptyTable": i18n["common.emptyTable"],
             "infoEmpty": i18n["common.infoEmpty"],
+            "lengthMenu": i18n["common.menuInfo"],
             "paginate": {
                 "next": i18n["common.next"],
                 "previous": i18n["common.previous"]
