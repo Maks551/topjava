@@ -28,8 +28,8 @@
                     </sec:authorize>
                     <sec:authorize access="isAnonymous()">
                         <form:form class="form-inline my-2" id="login_form" action="spring_security_check" method="post">
-                            <input class="form-control mr-1" type="text" placeholder="Email" name="username">
-                            <input class="form-control mr-1" type="password" placeholder="Password" name="password">
+                            <input class="form-control mr-1" type="text" placeholder="<spring:message code='user.email'/>" name="username">
+                            <input class="form-control mr-1" type="password" placeholder="<spring:message code='user.password'/>" name="password">
                             <button class="btn btn-success" type="submit">
                                 <span class="fa fa-sign-in"></span>
                             </button>
